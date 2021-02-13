@@ -3,6 +3,8 @@ package com.thiago.clientes.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.thiago.clientes.entities.Client;
+
 public class ClientDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -22,6 +24,15 @@ public class ClientDto implements Serializable{
 		this.income = income;
 		this.birthDate = birthDate;
 		this.children = children;
+	}
+	
+	public ClientDto(Client client) {
+		this.id = client.getId();
+		this.name = client.getName();
+		this.cpf = client.getCpf();
+		this.income = client.getIncome();
+		this.birthDate = client.getBirthDate();
+		this.children = client.getChildren();
 	}
 
 	public Long getId() {

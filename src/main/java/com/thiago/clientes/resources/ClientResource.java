@@ -1,6 +1,10 @@
 package com.thiago.clientes.resources;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thiago.clientes.dto.ClientDto;
+import com.thiago.clientes.services.ClientService;
 
 @RestController
 @RequestMapping(value = "/clients")
 public class ClientResource {
+	
+	@Autowired
+	ClientService service;
 	
 	@GetMapping
 	public ResponseEntity<Page<ClientDto>> findAllPaginated(
@@ -26,7 +34,12 @@ public class ClientResource {
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction
 			){
-		return null;
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		Page<ClientDto> pages = this.service.findAllPaginated(pageRequest);
+		
+		return ResponseEntity.ok(pages);
 	}
 	
 	@GetMapping(value = "/{id}")
