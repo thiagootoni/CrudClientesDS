@@ -1,12 +1,12 @@
 package com.thiago.clientes.resources;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.thiago.clientes.dto.ClientDto;
 import com.thiago.clientes.services.ClientService;
@@ -44,22 +45,36 @@ public class ClientResource {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ClientDto> findOne(@PathVariable Long id){
-		return null;
+		
+		return ResponseEntity.ok().body(this.service.findOne(id));
+		
 	}
 	
 	@PostMapping
 	public ResponseEntity<ClientDto> insertOne(@RequestBody ClientDto dto){
-		return null;
+
+		ClientDto clientDto = this.service.insertOne(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(clientDto.getId()).toUri();
+		
+		return ResponseEntity.created(uri).body(clientDto);	
+		
 	}
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ClientDto> udpateOne(@RequestBody ClientDto dto, @PathVariable Long id){
-		return null;
+		
+		ClientDto clientDto = this.service.updateOne(dto, id);
+		
+		return ResponseEntity.ok(clientDto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<ClientDto> deleteOne(@PathVariable Long id){
-		return null;
+		
+		this.service.deleteOne(id);
+		
+		return ResponseEntity.noContent().build();
+		
 	}
 	
 }

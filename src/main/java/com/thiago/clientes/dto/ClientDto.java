@@ -15,9 +15,12 @@ public class ClientDto implements Serializable{
 	private Instant birthDate;
 	private Integer children;
 	
-	public ClientDto() {}
+	public ClientDto() {
+		super();
+	}
 
 	public ClientDto(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -25,7 +28,8 @@ public class ClientDto implements Serializable{
 		this.birthDate = birthDate;
 		this.children = children;
 	}
-	
+
+
 	public ClientDto(Client client) {
 		this.id = client.getId();
 		this.name = client.getName();
@@ -81,6 +85,6 @@ public class ClientDto implements Serializable{
 
 	public void setChildren(Integer children) {
 		this.children = children;
-	}	
+	}
 	
 }
