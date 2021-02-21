@@ -4,6 +4,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,7 @@ public class ClientService {
 		
 		try {
 			this.repository.deleteById(id);
-		} catch (EntityNotFoundException e) {
+		} catch (EmptyResultDataAccessException e) {
 			throw new ElementNotFoundException("Elemento não encontrado");
 		} catch (DataIntegrityViolationException e) {
 			throw new DataBaseException("Integridade de BD violada");
